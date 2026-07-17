@@ -1,69 +1,29 @@
-# security-automation-lab
-
-from datetime import timedelta
-from azure.identity import DefaultAzureCredential
-from azure.monitor.query import LogsQueryClient
-import pandas as pd
-
-LOG_ANALYTICS_WORKSPACE_ID = ""
-
-# Need Azure CLI: https://learn.microsoft.com/en-us/cli/azure/install-azure-cli-windows?view=azure-cli-latest&pivots=msi
-log_analytics_client = LogsQueryClient(credential=DefaultAzureCredential())
-
-# How far back we want to query 
-hours_ago = 1
-
-# The actual KQL Query 
-kql_query = f'''
-BehaviorAnalytics
-| project UserName, TimeGenerated, ActivityType, ActionType, UserPrincipalName, EventSource, SourceIPLocation, SourceIPAddress
-| where isnotempty(ActionType) and isnotempty(UserName)
-| order by TimeGenerated desc
-| take 100
-'''
-        
-response = log_analytics_client.query_workspace(
-    workspace_id=LOG_ANALYTICS_WORKSPACE_ID,
-    query=kql_query,
-    timespan=timedelta(hours=hours_ago)
-)
-
-# Extract the table
-table = response.tables[0]
-
-if len(response.tables[0].rows) == 0:
-    print("No data returned from Log Analytics.")
-    exit
+# Azure Monitor Security Log Automation <img width="474" height="182" alt="image" src="https://github.com/user-attachments/assets/325c2fbb-e23a-48c0-b5f1-b449f9b2a5c0" />
 
 
+## What This Does
+Python script that queries Azure Log Analytics workspace <img width="4343" height="2218" alt="image" src="https://github.com/user-attachments/assets/3da2256f-10d2-4976-9a1a-321d018d2dfd" />
 
+for real-time security events using KQL queries.
 
-print(table)
+## Data Collected
+- Username and Principal Name
+- Logon Activity Type and Action Type
+- Source IP Address and Location
+- Timestamp of events
 
-columns = table.columns
-rows = table.rows
+## Tools Used
+- Python 3
+- Azure Monitor Query SDK
+- Azure Identity SDK
+- Pandas
+- KQL (Kusto Query Language)
 
-print(columns)
-print(rows)
+## Requirements
+pip install azure-monitor-query azure-identity pandas
 
-df = pd.DataFrame(rows, columns=columns)
-df["TimeGenerated"] = df["TimeGenerated"].dt.strftime("%b %d, %Y %I:%M:%S %p")
-records = df.to_csv(index=False)
-print(df)
-
-
-
-
-# TODO: Handle if returns 0 events
-record_count = len(response.tables[0].rows)
-
-# Extract columns and rows using dot notation
-columns = table.columns  # Already a list of strings
-rows = table.rows        # List of row data
-
-df = pd.DataFrame(rows, columns=columns)
-records = df.to_csv(index=False)
-
-print(records)
-
-print("fin.")
+## Setup
+1. Install Azure CLI
+2. Run: az login
+3. Add your Workspace ID
+4. Run: python log_analytics.py
