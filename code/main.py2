@@ -1,0 +1,6 @@
+name = ahmed 
+lastname = hussine 
+
+combain_name = ahmed + hussine
+
+print("combain_name")
