@@ -1,0 +1,22 @@
+# Passwords & Credentials
+*.txt
+.env
+credentials*
+secrets*
+
+# Python
+__pycache__/
+*.pyc
+
+# VM Files
+*.vmdk
+*.iso
+*.vmem
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+desktop.ini
+Thumbs.db
