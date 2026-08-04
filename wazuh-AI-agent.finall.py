@@ -1,5 +1,4 @@
 import json
-import re
 import requests
 import urllib3
 from datetime import datetime
@@ -322,72 +321,11 @@ Return JSON:
     )
 
 
-    raw_content = response.choices[0].message.content
+    return json.loads(
 
+        response.choices[0].message.content
 
-    # Some AI responses can come back malformed/truncated.
-    # This prevents one bad response from crashing the entire run.
-    try:
-
-        return json.loads(raw_content)
-
-    except json.JSONDecodeError as e:
-
-        print(
-
-            f"⚠️ JSON parsing failed for this alert: {e}"
-
-        )
-
-        return {
-
-            "severity": "Unknown",
-
-            "incident_type": "Parsing Error",
-
-            "mitre_attack": "",
-
-            "risk_score": 0,
-
-            "recommended_action": "Manual review required - AI response could not be parsed.",
-
-            "analysis": "The AI model returned malformed JSON for this alert. Raw response could not be parsed automatically."
-
-        }
-
-
-
-# ==========================================================
-# Normalize Alert (AI Threat Inbox schema)
-# ==========================================================
-
-def normalize_alert(raw_alert: dict, source_agent_name: str, source_agent_ip: str, event_timestamp: str) -> dict:
-    """
-    Takes the raw GPT output and reshapes it into a consistent schema
-    for storage, filtering, and future dashboard/search use.
-    """
-    severity = str(raw_alert.get("severity", "")).strip().capitalize()
-
-    mitre_raw = raw_alert.get("mitre_attack", "")
-    if isinstance(mitre_raw, list):
-        mitre_techniques = mitre_raw
-    elif mitre_raw and mitre_raw.lower() != "none":
-        mitre_techniques = re.findall(r"T\d{4}(?:\.\d{3})?", mitre_raw)
-    else:
-        mitre_techniques = []
-
-    return {
-        "timestamp": event_timestamp,
-        "agent_name": source_agent_name,
-        "agent_ip": source_agent_ip,
-        "severity": severity,
-        "incident_type": raw_alert.get("incident_type", "Unknown"),
-        "mitre_techniques": mitre_techniques,
-        "risk_score": raw_alert.get("risk_score", 0),
-        "recommended_action": raw_alert.get("recommended_action", ""),
-        "analysis": raw_alert.get("analysis", ""),
-        "processed_at": datetime.utcnow().isoformat() + "Z"
-    }
+    )
 
 
 
@@ -517,24 +455,17 @@ def main():
         )
 
 
-        # Pull the fields needed for normalization from the raw alert
-        agent = alert.get("agent", {})
-        agent_name = agent.get("name", "Unknown")
-        agent_ip = agent.get("ip", "Unknown")
-        event_timestamp = alert.get("@timestamp", "")
+        results.append(
 
+            {
 
-        # Build the clean, consistent Threat Inbox record
-        normalized = normalize_alert(
-            raw_alert=analysis,
-            source_agent_name=agent_name,
-            source_agent_ip=agent_ip,
-            event_timestamp=event_timestamp
+                "alert":alert,
+
+                "AI_analysis":analysis
+
+            }
+
         )
-
-
-        results.append(normalized)
-
 
 
     save_report(results)
