@@ -1,4 +1,5 @@
 import json
+import os
 import re
 import requests
 import urllib3
@@ -15,7 +16,7 @@ urllib3.disable_warnings(
 # OpenAI
 # ==========================================================
 
-OPENAI_API_KEY = "***REMOVED***"
+OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
 
 client = OpenAI(
@@ -32,7 +33,7 @@ WAZUH_URL = "https://192.168.56.102:55000"
 
 WAZUH_USER = "wazuh-wui"
 
-WAZUH_PASS = "Wazuh1234!"
+WAZUH_PASS = os.environ["WAZUH_PASS"]
 
 
 
@@ -44,7 +45,7 @@ INDEXER_URL = "https://192.168.56.102:9200"
 
 INDEXER_USER = "admin"
 
-INDEXER_PASS = "4puttnSmAD4KH0cVM*WfkF7CXnGBHbUp"
+INDEXER_PASS = os.environ["INDEXER_PASS"]
 
 
 
@@ -392,6 +393,91 @@ def normalize_alert(raw_alert: dict, source_agent_name: str, source_agent_ip: st
 
 
 # ==========================================================
+# Push Normalized Alert to OpenSearch (AI Threat Inbox)
+# ==========================================================
+
+AI_THREAT_INBOX_INDEX = "ai-threat-inbox-alerts"
+
+
+def ensure_ai_threat_inbox_index():
+    """
+    Creates the ai-threat-inbox-alerts index with an explicit mapping
+    if it doesn't already exist yet, so fields like risk_score and
+    mitre_techniques get proper types instead of relying on
+    OpenSearch's dynamic mapping guesses.
+    """
+    check = requests.head(
+        f"{INDEXER_URL}/{AI_THREAT_INBOX_INDEX}",
+        auth=(INDEXER_USER, INDEXER_PASS),
+        verify=False,
+        timeout=10
+    )
+
+    if check.status_code == 200:
+        return
+
+    mapping = {
+        "mappings": {
+            "properties": {
+                "timestamp": {"type": "date"},
+                "agent_name": {"type": "keyword"},
+                "agent_ip": {"type": "keyword"},
+                "severity": {"type": "keyword"},
+                "incident_type": {"type": "keyword"},
+                "mitre_techniques": {"type": "keyword"},
+                "risk_score": {"type": "integer"},
+                "recommended_action": {"type": "text"},
+                "analysis": {"type": "text"},
+                "processed_at": {"type": "date"}
+            }
+        }
+    }
+
+    response = requests.put(
+        f"{INDEXER_URL}/{AI_THREAT_INBOX_INDEX}",
+        auth=(INDEXER_USER, INDEXER_PASS),
+        json=mapping,
+        headers={"Content-Type": "application/json"},
+        verify=False,
+        timeout=10
+    )
+
+    if response.status_code not in (200, 201):
+        print(f"⚠️ Failed to create {AI_THREAT_INBOX_INDEX} index: {response.status_code} {response.text}")
+    else:
+        print(f"✅ Created OpenSearch index: {AI_THREAT_INBOX_INDEX}")
+
+
+
+def index_alert_to_opensearch(normalized_alert: dict) -> bool:
+    """
+    Pushes a single normalized alert into the ai-threat-inbox-alerts
+    OpenSearch index so it's searchable/dashboardable, in addition to
+    the local JSON report.
+    """
+    try:
+        response = requests.post(
+            f"{INDEXER_URL}/{AI_THREAT_INBOX_INDEX}/_doc",
+            auth=(INDEXER_USER, INDEXER_PASS),
+            json=normalized_alert,
+            headers={"Content-Type": "application/json"},
+            verify=False,
+            timeout=10
+        )
+
+        if response.status_code not in (200, 201):
+            print(f"⚠️ Failed to index alert into OpenSearch: {response.status_code} {response.text}")
+            return False
+
+        return True
+
+    except Exception as e:
+        print(f"❌ OpenSearch indexing error: {e}")
+        return False
+
+
+
+# ==========================================================
 # Save Report
 # ==========================================================
 
@@ -456,6 +542,9 @@ def main():
 
 
     test_indexer()
+
+
+    ensure_ai_threat_inbox_index()
 
 
 
@@ -530,6 +619,14 @@ def main():
             source_agent_name=agent_name,
             source_agent_ip=agent_ip,
             event_timestamp=event_timestamp
+        )
+
+
+        # Push into the AI Threat Inbox OpenSearch index
+        indexed = index_alert_to_opensearch(normalized)
+
+        print(
+            "✅ Indexed to OpenSearch" if indexed else "⚠️ Not indexed (see error above)"
         )
 
 
