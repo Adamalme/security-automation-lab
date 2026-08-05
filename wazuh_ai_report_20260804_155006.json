@@ -1,0 +1,350 @@
+[
+    {
+        "timestamp": "2026-08-04T22:47:29.181Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "High",
+        "incident_type": "Windows Application Crash/Error",
+        "mitre_techniques": [
+            "T1499",
+            "T1059"
+        ],
+        "risk_score": 7,
+        "recommended_action": "Investigate the affected host (Adam-alme) for recent application crashes. Review the application logs and associated Windows Event Logs for error IDs and faulting modules. Assess for signs of malicious activity or abnormal behavior preceding the error event. Run malware scans and verify system and application integrity. If suspicious, escalate for further forensics.",
+        "analysis": "A high-level (9) Wazuh alert for a Windows application error indicates a serious application crash or fault, which could be caused by software bugs, misconfigurations, or exploitation attempts. Since the event involves a critical application error, it may have security implications, such as exploitation of vulnerabilities to achieve denial-of-service or remote code execution. Further investigation is warranted to determine the root cause, as persistent or unusual crashes can be a sign of attack or compromise.",
+        "processed_at": "2026-08-04T22:48:45.921756Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:46:58.682Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Windows Audit Failure",
+        "mitre_techniques": [
+            "T1078"
+        ],
+        "risk_score": 50,
+        "recommended_action": "Review the event logs on host Adam-alme (192.168.56.1) for further details regarding the audit failure. Investigate if the failure corresponds to a sensitive operation, such as failed logons or unauthorized access attempts. Assess whether this is a known false positive or part of a pattern of suspicious activity. If related to credential or access attempts, enforce account lockouts and ensure strong authentication policies are in place.",
+        "analysis": "A Windows audit failure event was detected on the host Adam-alme (192.168.56.1) at 2026-08-04T22:46:58.682Z. This typically indicates a failed attempt to perform an operation that requires auditing, such as a failed login or permission denial. While a single audit failure may not be critical, repeated or unusual failures can indicate reconnaissance, brute-force attempts, or insider threat activity. Additional context is needed to determine if this is part of a larger attack sequence. Recommend correlating this alert with other security events from the same host and timeframe.",
+        "processed_at": "2026-08-04T22:48:50.806576Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:46:55.805Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Windows audit failure event",
+        "mitre_techniques": [],
+        "risk_score": 45,
+        "recommended_action": "Review the Windows event logs on agent Adam-alme (IP: 192.168.56.1) to identify the cause of the audit failure. Check for patterns of multiple failed logins, privilege escalation attempts, or unauthorized access to sensitive resources. Investigate recent account usage and apply account lockouts or password resets if suspicious activity is confirmed.",
+        "analysis": "A Windows audit failure event was reported by agent Adam-alme at 192.168.56.1. Audit failures can indicate unauthorized access attempts, misconfigurations, or system policy violations. While a single event may not indicate malicious activity, repeated or clustered events could point to brute-force attacks or malicious probing. The associated MITRE technique is Credential Access, as attackers may be probing credentials or sensitive audit-protected resources.",
+        "processed_at": "2026-08-04T22:48:52.998162Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:45:34.358Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Low",
+        "incident_type": "informational",
+        "mitre_techniques": [],
+        "risk_score": 0,
+        "recommended_action": "No action required. Continue to monitor for any changes in the health of endpoint protection.",
+        "analysis": "This alert indicates that Windows Defender Antimalware is running properly and is in a healthy state on the endpoint (Agent: Adam-alme, IP: 192.168.56.1). This is a normal status notification confirming endpoint protection is active, with no signs of threat or compromise.",
+        "processed_at": "2026-08-04T22:48:54.559277Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:42:29.146Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "High",
+        "incident_type": "Windows Application Error Event",
+        "mitre_techniques": [
+            "T1499",
+            "T1216"
+        ],
+        "risk_score": 7,
+        "recommended_action": "Review Windows Application event logs on the Adam-alme system for additional details on the application error. Identify the application involved and determine if this is an isolated crash or recurring issue. Correlate with other alerts for signs of exploitation or malicious activity. If the application is critical, patch, restore, or isolate the host as necessary. Run a full malware scan and check for suspicious files or user accounts. If this appears malicious, follow incident response procedures.",
+        "analysis": "This alert indicates a high-severity Windows Application Error event was detected on the host Adam-alme (192.168.56.1) at 2026-08-04T22:42:29Z. Application errors can result from software bugs, system instability, or may be induced as part of an exploit or attack, potentially leading to service disruption or enabling further compromise. Without additional context (such as the application name, exception code, or related activities), this should be treated as suspicious, especially if the error is associated with a critical or commonly exploited application and is not a regular occurrence on this endpoint.",
+        "processed_at": "2026-08-04T22:48:59.804553Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:39:03.313Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Windows Audit Failure Event",
+        "mitre_techniques": [
+            "T1078",
+            "T1059"
+        ],
+        "risk_score": 40,
+        "recommended_action": "Review Windows event logs on agent 'Adam-alme' for audit failures at the reported timestamp. Identify which account or service failed and assess for brute-force attempts, misconfigurations, or unauthorized access. Correlate with recent successful logins or other suspicious activity. Take corrective action such as blocking suspicious accounts, resetting credentials, or adjusting audit policies.",
+        "analysis": "A Windows audit failure was logged on host 'Adam-alme' (IP: 192.168.56.1) at 2026-08-04T22:39:03Z. This indicates an unsuccessful security-related action such as failed login, unauthorized resource access attempt, or other violations of audit policy. While a single audit failure is not critical, repeated or anomalous occurrences may signal an attempted intrusion, brute-force attack, or insider threat. Further investigation into logon events and associated user activity is warranted.",
+        "processed_at": "2026-08-04T22:49:09.584602Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:37:29.164Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "High",
+        "incident_type": "Windows Application Crash/Error",
+        "mitre_techniques": [
+            "T1499",
+            "T1059"
+        ],
+        "risk_score": 80,
+        "recommended_action": "Investigate which application generated the error and retrieve the associated Event ID and error details from Windows logs. Correlate with any recent changes or suspicious activities on 'Adam-alme'. Review for possible signs of malware or exploit attempts, especially if the application is critical or frequently targeted (e.g., browsers, Office, or endpoint protection). Apply relevant patches and, if necessary, isolate the host to prevent lateral movement.",
+        "analysis": "This high-severity alert indicates an application on the host 'Adam-alme' encountered a critical error. Application errors can result from normal software bugs, but when coupled with other suspicious behavior or targeting mission-critical apps, they can signal adversary activity, such as exploit attempts, ransomware initialization, or the disabling of security tools. Given the agent is on a private/internal IP, privilege escalation or lateral movement is a concern. Immediate log review and context gathering are necessary to determine root cause and exposure risk.",
+        "processed_at": "2026-08-04T22:49:13.561500Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:35:43.326Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Windows Audit Failure",
+        "mitre_techniques": [
+            "T1078",
+            "T1110"
+        ],
+        "risk_score": 50,
+        "recommended_action": "Review Windows security event logs on host Adam-alme for repeated audit failures or unusual login activity. Correlate with user activity to ensure no unauthorized attempts. Escalate if multiple consecutive failures or associated with privileged accounts.",
+        "analysis": "This alert indicates a Windows audit failure event was detected on host Adam-alme (IP: 192.168.56.1). Such failures commonly occur due to unsuccessful authentication attempts, possible brute force attempts, or misconfigured applications or users. Though a single failure may be benign, repeated or unexpected failures can indicate attempted unauthorized access, password-guessing, or lateral movement. Further investigation into the event logs, correlating with the user and source of attempts, is required to determine if this is part of a broader attack pattern.",
+        "processed_at": "2026-08-04T22:49:16.785060Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:32:29.314Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "High",
+        "incident_type": "Windows Application Error Event",
+        "mitre_techniques": [
+            "T1216",
+            "T1059"
+        ],
+        "risk_score": 8,
+        "recommended_action": "1. Review the detailed contents of the application error event in the Windows Event Logs. 2. Identify the affected application/process and determine if the crash or error is related to known, legitimate activity or a potential exploit/attack. 3. Check for recent changes, suspicious behavior, or anomalous activity on the agent system (Adam-alme). 4. Scan the endpoint for malware or unauthorized applications. 5. If malicious activity is confirmed, isolate the host and begin incident response procedures.",
+        "analysis": "A high-severity Windows application error was logged on agent 'Adam-alme' (IP: 192.168.56.1). Application errors may be a result of software malfunction, exploit attempts, or possible malware activity attempting to crash or exploit a process. The timing, context, and frequency of this alert should be reviewed in correlation with other security events (such as unexpected process creation, privilege escalations, or network anomalies) to determine if this indicates an active threat or a benign crash. Without more details on the specific application/process involved, further investigation is required to assess impact and risk.",
+        "processed_at": "2026-08-04T22:49:19.420789Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:28:08.733Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Configuration Change",
+        "mitre_techniques": [
+            "T1562.001"
+        ],
+        "risk_score": 60,
+        "recommended_action": "Review recent configuration changes to Windows Defender on agent Adam-alme (192.168.56.1). Verify if the change was authorized and documented. If unauthorized, investigate for signs of malicious activity and ensure Defender is restored to a secure configuration. Consider increasing monitoring of this host.",
+        "analysis": "This Wazuh alert indicates that a feature configuration of Windows Defender's antimalware platform was changed on host Adam-alme. This type of activity can be legitimate (e.g., by an administrator during maintenance) but is also commonly exploited by adversaries attempting to weaken endpoint security defenses as part of an attack chain. Such changes should always be verified for legitimacy. Unauthorized modifications to defender settings can expose the system to increased risk of malware infection or lateral movement.",
+        "processed_at": "2026-08-04T22:49:22.724886Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:28:08.733Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Low",
+        "incident_type": "Informational",
+        "mitre_techniques": [],
+        "risk_score": 0,
+        "recommended_action": "No action required. Confirm that regular definition updates are occurring as expected.",
+        "analysis": "This alert indicates that Windows Defender's antimalware definitions on the 'Adam-alme' endpoint (192.168.56.1) were updated successfully. It is an informational event and shows that the system's AV signatures are current. There are no indicators of compromise or suspicious activity associated with this alert.",
+        "processed_at": "2026-08-04T22:49:24.261337Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:28:08.715Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Info",
+        "incident_type": "Windows Defender Update",
+        "mitre_techniques": [],
+        "risk_score": 0,
+        "recommended_action": "No action required. Confirm that scheduled AV updates are in place for ongoing protection.",
+        "analysis": "This alert indicates that Windows Defender antivirus definitions were updated successfully on endpoint 'Adam-alme' (192.168.56.1). It is a standard notification confirming that the system\u2019s antimalware signatures are current. No malicious activity is detected. Regular and successful updates are crucial for effective endpoint protection.",
+        "processed_at": "2026-08-04T22:49:25.845893Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:28:05.508Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Low",
+        "incident_type": "Informational",
+        "mitre_techniques": [],
+        "risk_score": 3,
+        "recommended_action": "Verify if the change was expected (e.g., routine Windows Defender, legitimate IT task). If unexpected or unapproved, review user actions and investigate for potential malicious software attempting to establish persistence.",
+        "analysis": "This alert indicates that a software protection service (such as Windows Defender's scheduled task) was scheduled on agent 'Adam-alme' (192.168.56.1). While this is commonly a legitimate system or IT operation designed to maintain security, threat actors sometimes use scheduled tasks to maintain persistence. The alert severity is low, but review recent changes and scheduled tasks for anomalies\u2014particularly if no change was expected at this time.",
+        "processed_at": "2026-08-04T22:49:29.131071Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:27:29.291Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "High",
+        "incident_type": "Windows Application Crash (Potential Exploitation or Unstable Software)",
+        "mitre_techniques": [
+            "T1499",
+            "T1218"
+        ],
+        "risk_score": 7,
+        "recommended_action": "Immediately triage the affected system (Adam-alme, 192.168.56.1). Collect and analyze the application error logs for crash details. Identify the application involved and determine if this is an isolated or widespread event. Check for known vulnerabilities, recent change/activity, or suspicious user actions near the time of the crash. Run malware scans and check for signs of exploitation attempts. If suspicious, isolate the host and escalate for deeper forensic investigation.",
+        "analysis": "A level 9 alert regarding a Windows application error typically signifies a critical application crash or possible exploitation attempt. Given the severity, this could be indicative of either a vulnerability being actively exploited, an unstable application, or a targeted DoS attempt. Since the alert level is high and there is a specific agent and timestamp, this should be investigated promptly to determine root cause and to ensure there has not been a compromise or active attack on the system.",
+        "processed_at": "2026-08-04T22:49:33.213873Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:26:19.576Z",
+        "agent_name": "kali",
+        "agent_ip": "Unknown",
+        "severity": "Medium",
+        "incident_type": "Unexpected network port activity",
+        "mitre_techniques": [
+            "T1049"
+        ],
+        "risk_score": 60,
+        "recommended_action": "Review recent changes on the affected host (kali) to determine if the new port(s) opened or closed are authorized. Correlate with recent user or service activity, installed software, or configuration changes. If unauthorized or suspicious activity is detected, isolate the host and perform a deeper investigation to identify potential malicious behavior.",
+        "analysis": "This alert indicates that the status of listened ports has changed on the 'kali' agent, with either a new port being opened or an existing port being closed. Such changes can occur during normal system administration (e.g., installing software, making configuration updates). However, unauthorized ports opening can be a sign of malware, backdoors, or initial access by a threat actor. No source IP is provided, which may indicate a local process change. Given the elevated risk, further review of the system\u2019s recent process and user activity is recommended to rule out compromise.",
+        "processed_at": "2026-08-04T22:49:35.610623Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:23:02.679Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Low",
+        "incident_type": "Suspicious Powershell Activity",
+        "mitre_techniques": [
+            "T1082 - System Information Discovery"
+        ],
+        "risk_score": 15,
+        "recommended_action": "Review the user and process that executed the PowerShell command. Confirm whether the activity is associated with authorized scripts, administration, or automation. If not recognized, investigate the source and intent as it may indicate the first stages of an attacker profiling the system. Consider proactive threat hunting for related activity.",
+        "analysis": "A PowerShell script was observed querying system environment variables on host 'Adam-alme' (192.168.56.1). This is a common method used by both administrators for legitimate purposes and attackers to gather information about a system's configuration and sensitive data. While this by itself is not highly malicious, it is often an early step in system reconnaissance and should be correlated with other activity. No further confirmed indicators of compromise are present in this alert, but continued monitoring is advised.",
+        "processed_at": "2026-08-04T22:49:38.519073Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:59.591Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Suspicious PowerShell Activity",
+        "mitre_techniques": [
+            "T1082"
+        ],
+        "risk_score": 5,
+        "recommended_action": "Review the full PowerShell command and script content to determine intent. Corroborate this event with other alerts or suspicious behavior from the host Adam-alme. If this was not a legitimate action (e.g., performed by IT staff), isolate the endpoint and initiate a deeper investigation. Monitor for lateral movement or further discovery techniques.",
+        "analysis": "A PowerShell script was detected querying system environment variables on host Adam-alme (192.168.56.1). This behavior aligns with initial discovery tactics (MITRE ATT&CK T1082) often used by threat actors to profile a system. While environment variable access can be normal, the use of PowerShell scripts for such queries is commonly observed during post-compromise reconnaissance phases. Investigate to determine if this activity was expected or could be linked to malicious actions.",
+        "processed_at": "2026-08-04T22:49:41.450362Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:56.342Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Suspicious PowerShell Activity",
+        "mitre_techniques": [
+            "T1082: System Information Discovery"
+        ],
+        "risk_score": 45,
+        "recommended_action": "Investigate the user context and the script/executable that launched Powershell. Review recent user and process activity from Adam-alme on the endpoint. If not related to known administrative tasks or software updates, analyze parent process and hunt for other related indicators such as additional PowerShell or scripting tool usage, outbound connections, or signs of lateral movement.",
+        "analysis": "This alert indicates that a PowerShell script was used to query system environment variables on agent Adam-alme. This is a common technique used by attackers to enumerate system details and determine the environment for further actions, including privilege escalation or lateral movement. While such activity is sometimes legitimate for system administration, if it is unexpected or comes from a non-administrative context, it may suggest reconnaissance as part of an attack chain. Cross-reference with other recent logs and correlate for further suspicious behavior.",
+        "processed_at": "2026-08-04T22:49:44.495531Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:51.609Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Suspicious PowerShell Usage",
+        "mitre_techniques": [
+            "T1082"
+        ],
+        "risk_score": 60,
+        "recommended_action": "Investigate the context of the PowerShell activity on host Adam\u2011alme. Review user activity around 2026-08-04T22:22:51Z. Confirm if this action was authorized or part of legitimate administration. Check for additional related suspicious commands or scripts. If unauthorized, isolate the host and perform further analysis for possible compromise.",
+        "analysis": "The alert indicates PowerShell was used to query system environment variables, which is common for both administrative and malicious purposes. This technique (MITRE ATT&CK T1082: System Information Discovery) is often used by attackers during the reconnaissance phase to gather system and user context. The event should be reviewed in the context of recent user and process activity to determine legitimacy. Further investigation is warranted as this type of behavior, especially if performed by unexpected users or at odd times, could be an indicator of compromise.",
+        "processed_at": "2026-08-04T22:49:48.048324Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:43.067Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Suspicious PowerShell Activity",
+        "mitre_techniques": [
+            "T1082: System Information Discovery",
+            "T1059.001: Command and Scripting Interpreter: PowerShell"
+        ],
+        "risk_score": 60,
+        "recommended_action": "Correlate this alert with other suspicious activity (such as unusual account logins, persistence mechanisms, or network connections). If this is unapproved behavior, investigate the user and process details behind the PowerShell script. Capture and analyze the full command line. Consider isolating the host if further malicious intent is found. Review system and security logs for related events.",
+        "analysis": "The alert indicates that a PowerShell script was used to query system environment variables on host Adam-alme (IP: 192.168.56.1). This behavior is typical in the early stages of an attack, as threat actors often collect system and user environment data to aid in further exploitation or lateral movement. While this could also be triggered by legitimate administrative or automation tasks, it warrants investigation if unplanned. Verify the context, associated user, and process lineage to determine if this is legitimate activity or part of a larger attack chain.",
+        "processed_at": "2026-08-04T22:49:52.036815Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:38.209Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Low",
+        "incident_type": "Suspicious PowerShell Activity",
+        "mitre_techniques": [
+            "T1082"
+        ],
+        "risk_score": 20,
+        "recommended_action": "Review the context of the PowerShell activity. Verify if the script was executed as part of authorized administrative tasks or by a scheduled job. If suspicious or unexpected, investigate the user who ran the command, check for additional suspicious activity, and consider isolating the endpoint if further compromise is detected.",
+        "analysis": "This alert was triggered because a PowerShell script ran a command to query system environment variables on the host 'Adam-alme' (192.168.56.1). While not inherently malicious, this technique is often used by attackers during initial reconnaissance to gather system information. Given the moderate alert level and lack of additional indicators, this is a low-severity event unless corroborated by other suspicious activity.",
+        "processed_at": "2026-08-04T22:49:54.704311Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:37.700Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Medium",
+        "incident_type": "Suspicious Use of PowerShell",
+        "mitre_techniques": [
+            "T1082"
+        ],
+        "risk_score": 50,
+        "recommended_action": "Review the full PowerShell command and process lineage to determine context. Investigate user activity on 'Adam-alme' at the specified time. If not authorized, contain the host, perform a full malware scan, and check for persistence mechanisms. Educate the user if the action was legitimate.",
+        "analysis": "A PowerShell script ran on agent 'Adam-alme' (192.168.56.1) that queried system environment variables. This behavior is commonly used in system discovery by both legitimate IT tools and adversaries in early stages of an attack. While not immediately indicative of malicious intent, this action warrants investigation, especially if it is uncommon for this host or user. Confirm if this execution aligns with expected administrative activity, and check for other suspicious events around this timestamp.",
+        "processed_at": "2026-08-04T22:49:57.939092Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:22:33.395Z",
+        "agent_name": "Adam-alme",
+        "agent_ip": "192.168.56.1",
+        "severity": "Low",
+        "incident_type": "Agent startup event",
+        "mitre_techniques": [
+            "T1070.004"
+        ],
+        "risk_score": 1,
+        "recommended_action": "Verify if the Wazuh agent restart was scheduled or expected (e.g., due to updates, reboots, or administrative actions). Review recent logs and correlate with change management records. If unauthorized or unexplained, investigate for signs of tampering or malicious activity.",
+        "analysis": "This alert indicates that the Wazuh agent on host 'Adam-alme' (IP: 192.168.56.1) has started. On its own, this is a routine, informational message (level 3). However, unexpected agent restarts can obscure investigation trails or indicate tampering. Ensure the event aligns with normal operations, such as system restarts or scheduled updates. If out of the ordinary, further investigation into recent activity on this host is warranted.",
+        "processed_at": "2026-08-04T22:50:00.256238Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:20:27.779Z",
+        "agent_name": "kali",
+        "agent_ip": "Unknown",
+        "severity": "Low",
+        "incident_type": "Wazuh server event",
+        "mitre_techniques": [],
+        "risk_score": 1,
+        "recommended_action": "No immediate action required. Confirm the server start aligns with expected maintenance or operational procedures. Review recent administrative activity if this was unexpected.",
+        "analysis": "The alert indicates that the Wazuh server was started on the 'kali' agent. This is a routine event typically occurring during system reboots, maintenance, or after updates. Unless there is evidence of unauthorized access or this event was not expected, the risk is minimal. However, unexpected service starts may warrant investigation for potential tampering or unauthorized changes.",
+        "processed_at": "2026-08-04T22:50:02.297664Z"
+    },
+    {
+        "timestamp": "2026-08-04T22:20:20.786Z",
+        "agent_name": "kali",
+        "agent_ip": "Unknown",
+        "severity": "Medium",
+        "incident_type": "Potential Unauthorized Network Service",
+        "mitre_techniques": [
+            "T1049",
+            "T1071",
+            "T1105"
+        ],
+        "risk_score": 55,
+        "recommended_action": "1. Review recent changes and determine if any legitimate software updates or configurations explain the new port. 2. Check related process information: identify which process is listening on the new port and confirm if it is authorized. 3. Analyze the new port's purpose and traffic. 4. If suspicious or unauthorized, isolate the host or block the port and begin an incident investigation. 5. Review audit and authentication logs for potential privilege escalation or lateral movement.",
+        "analysis": "A new open or closed port was detected on the 'kali' agent. Sudden port state changes may indicate the initiation of unsanctioned services, malware, or command and control channels. If the change is not tied to legitimate administrative activity, it needs prompt investigation, as attackers often use such methods for persistence, lateral movement, or data exfiltration. As Kali Linux is often used as a penetration testing platform, extra care should be taken to verify what service or application is responsible for the new port activity.",
+        "processed_at": "2026-08-04T22:50:06.740511Z"
+    }
+]
