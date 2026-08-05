@@ -1,3 +1,4 @@
+import hashlib
 import json
 import os
 import re
@@ -449,15 +450,29 @@ def ensure_ai_threat_inbox_index():
 
 
 
+def build_alert_doc_id(normalized_alert: dict) -> str:
+    """
+    Deterministic document ID derived from the alert timestamp + agent
+    name, so re-indexing the same alert overwrites/updates the
+    existing document instead of creating a duplicate.
+    """
+    key = f"{normalized_alert.get('timestamp', '')}|{normalized_alert.get('agent_name', '')}"
+
+    return hashlib.sha256(key.encode("utf-8")).hexdigest()
+
+
 def index_alert_to_opensearch(normalized_alert: dict) -> bool:
     """
     Pushes a single normalized alert into the ai-threat-inbox-alerts
     OpenSearch index so it's searchable/dashboardable, in addition to
-    the local JSON report.
+    the local JSON report. Uses a deterministic doc ID so re-running
+    the script updates existing alerts instead of duplicating them.
     """
     try:
-        response = requests.post(
-            f"{INDEXER_URL}/{AI_THREAT_INBOX_INDEX}/_doc",
+        doc_id = build_alert_doc_id(normalized_alert)
+
+        response = requests.put(
+            f"{INDEXER_URL}/{AI_THREAT_INBOX_INDEX}/_doc/{doc_id}",
             auth=(INDEXER_USER, INDEXER_PASS),
             json=normalized_alert,
             headers={"Content-Type": "application/json"},
