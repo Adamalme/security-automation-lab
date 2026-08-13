@@ -19,9 +19,7 @@ urllib3.disable_warnings(
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
-client = OpenAI(
-    api_key="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"
-)
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 
 
