@@ -19,9 +19,8 @@ urllib3.disable_warnings(
 
 OPENAI_API_KEY = os.environ["OPENAI_API_KEY"]
 
-
 client = OpenAI(
-    api_key=OPENAI_API_KEY
+    api_key="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"
 )
 
 
@@ -144,35 +143,19 @@ def get_wazuh_token():
 # ==========================================================
 
 def get_dashboard_alerts():
-
-
     query = {
-
-
         "size":25,
-
-
         "sort":[
-
             {
-
                 "@timestamp":{
-
                     "order":"desc"
-
                 }
-
             }
-
         ]
+    }        
 
-
-    }
-
-
-
+              
     response = requests.get(
-
         f"{INDEXER_URL}/wazuh-alerts-*/_search",
 
         auth=(
@@ -372,11 +355,12 @@ def normalize_alert(raw_alert: dict, source_agent_name: str, source_agent_ip: st
 
     mitre_raw = raw_alert.get("mitre_attack", "")
     if isinstance(mitre_raw, list):
-        mitre_techniques = mitre_raw
-    elif mitre_raw and mitre_raw.lower() != "none":
-        mitre_techniques = re.findall(r"T\d{4}(?:\.\d{3})?", mitre_raw)
+        mitre_text = " ".join(str(item) for item in mitre_raw)
+    elif mitre_raw and str(mitre_raw).lower() != "none":
+        mitre_text = str(mitre_raw)
     else:
-        mitre_techniques = []
+        mitre_text = ""
+    mitre_techniques = re.findall(r"T\d{4}(?:\.\d{3})?", mitre_text)
 
     return {
         "timestamp": event_timestamp,
@@ -656,3 +640,4 @@ def main():
 if __name__=="__main__":
 
     main()
+
