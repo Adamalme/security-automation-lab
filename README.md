@@ -62,7 +62,7 @@ Validating tables and fields before running a query acts as a guardrail: it stop
 
 ---
 
-### Repository files
+## Repository files
 
 | File | Purpose |
 |---|---|
