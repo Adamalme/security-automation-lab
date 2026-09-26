@@ -1,6 +1,0 @@
-import json
-
-def analyze_logs(logs):
-    for log in logs:
-        if log["ActionType"] == "LogonFailed":
-            print("Investigate")
